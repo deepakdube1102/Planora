@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { 
   createBrowserRouter, 
   RouterProvider, 
   Navigate,
   useLocation
 } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { supabase } from './lib/supabase'
 
 // Layouts
 import AppLayout from './layout/AppLayout'
 
-// Pages
-import Landing from './pages/Landing'
-import Auth from './pages/Auth'
-import Dashboard from './pages/Dashboard'
-import CalendarView from './pages/Calendar'
-import AIAssistant from './pages/AIAssistant'
-import Analytics from './pages/Analytics'
-import ContentLibrary from './pages/Content'
-import Campaigns from './pages/Campaigns'
-import Profile from './pages/Profile'
-import Settings from './pages/Settings'
+// Lazy-loaded Pages (code-split for performance)
+const Landing = lazy(() => import('./pages/Landing'))
+const Auth = lazy(() => import('./pages/Auth'))
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const CalendarView = lazy(() => import('./pages/Calendar'))
+const AIAssistant = lazy(() => import('./pages/AIAssistant'))
+const Analytics = lazy(() => import('./pages/Analytics'))
+const ContentLibrary = lazy(() => import('./pages/Content'))
+const Campaigns = lazy(() => import('./pages/Campaigns'))
+const Profile = lazy(() => import('./pages/Profile'))
+const Settings = lazy(() => import('./pages/Settings'))
 
 // Assets
 import logo from './assets/logo_golden.png'
@@ -87,28 +87,28 @@ const LoadingScreen = () => (
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Landing />,
+    element: <Suspense fallback={<LoadingScreen />}><Landing /></Suspense>,
   },
   {
     path: '/login',
-    element: <Auth mode="login" />,
+    element: <Suspense fallback={<LoadingScreen />}><Auth mode="login" /></Suspense>,
   },
   {
     path: '/signup',
-    element: <Auth mode="signup" />,
+    element: <Suspense fallback={<LoadingScreen />}><Auth mode="signup" /></Suspense>,
   },
   {
     element: <ProtectedRoute><AppLayout /></ProtectedRoute>,
     children: [
-      { path: '/dashboard', element: <Dashboard /> },
-      { path: '/calendar', element: <CalendarView /> },
-      { path: '/content', element: <ContentLibrary /> },
-      { path: '/analytics', element: <Analytics /> },
-      { path: '/ai-assistant', element: <AIAssistant /> },
-      { path: '/campaigns', element: <Campaigns /> },
-      { path: '/profile', element: <Profile /> },
-      { path: '/settings', element: <Settings /> },
-      { path: '/settings/:section', element: <Settings /> },
+      { path: '/dashboard', element: <Suspense fallback={<LoadingScreen />}><Dashboard /></Suspense> },
+      { path: '/calendar', element: <Suspense fallback={<LoadingScreen />}><CalendarView /></Suspense> },
+      { path: '/content', element: <Suspense fallback={<LoadingScreen />}><ContentLibrary /></Suspense> },
+      { path: '/analytics', element: <Suspense fallback={<LoadingScreen />}><Analytics /></Suspense> },
+      { path: '/ai-assistant', element: <Suspense fallback={<LoadingScreen />}><AIAssistant /></Suspense> },
+      { path: '/campaigns', element: <Suspense fallback={<LoadingScreen />}><Campaigns /></Suspense> },
+      { path: '/profile', element: <Suspense fallback={<LoadingScreen />}><Profile /></Suspense> },
+      { path: '/settings', element: <Suspense fallback={<LoadingScreen />}><Settings /></Suspense> },
+      { path: '/settings/:section', element: <Suspense fallback={<LoadingScreen />}><Settings /></Suspense> },
     ]
   },
   {

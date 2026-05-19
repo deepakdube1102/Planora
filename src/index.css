@@ -464,3 +464,36 @@ body, .layout, .settings-parent-layout, .settings-sidebar, .mobile-root-wrapper,
 [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.15);
 }
+
+/* ── Mobile Performance Optimizations ── */
+@media (max-width: 768px) {
+  * {
+    animation-duration: 0.15s !important;
+    transition-duration: 0.15s !important;
+  }
+
+  /* Disable expensive blur effects on mobile */
+  .glass-card,
+  .nav-wrapper,
+  [style*="backdrop-filter"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Reduce box shadows on mobile */
+  .campaign-card-premium,
+  .card-premium,
+  .dashboard-card {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+  }
+}
+
+/* Respect user's reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
