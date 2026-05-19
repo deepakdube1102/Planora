@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { Mail, Lock, User } from 'lucide-react'
-import { Github, Facebook } from './ui/BrandIcons'
+import { Github, Facebook } from '../components/ui/BrandIcons'
 
 const Signup = ({ onAuthSuccess, onLoginClick, onBack }) => {
   const [loading, setLoading] = useState(false)
