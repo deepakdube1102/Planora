@@ -30,18 +30,21 @@ import { useAppStore } from './store/useAppStore'
 import { useChatStore } from './store/useChatStore'
 
 const ProtectedRoute = ({ children }) => {
-  const { session } = useAppStore()
+  const { session, setSession } = useAppStore()
   const [checking, setChecking] = useState(!session)
 
   useEffect(() => {
     if (!session) {
       supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+        if (currentSession) {
+          setSession(currentSession)
+        }
         setChecking(false)
       })
     } else {
       setChecking(false)
     }
-  }, [session])
+  }, [session, setSession])
 
   if (checking) return <LoadingScreen />
   if (!session) return <Navigate to="/login" replace />

@@ -72,7 +72,7 @@ const Auth = ({ mode = 'login' }) => {
 
     // Subscribe to changes to capture the session immediately when URL hash parsing resolves asynchronously
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
+      if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session) {
         checkSession(session)
       }
     })
