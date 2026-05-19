@@ -64,7 +64,7 @@ const Campaigns = () => {
         {['active', 'completed', 'archived'].map(tab => (
           <button 
             key={tab}
-            className={`tab-item ${activeTab === tab ? 'active' : ''}`}
+            className={`campaign-tab-item ${activeTab === tab ? 'active' : ''}`}
             onClick={() => setActiveTab(tab)}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -232,7 +232,7 @@ const Campaigns = () => {
           margin-bottom: 32px;
         }
 
-        .tab-item {
+        .campaign-tab-item {
           padding: 10px 24px;
           border-radius: 10px;
           border: none;
@@ -244,7 +244,7 @@ const Campaigns = () => {
           transition: 0.2s;
         }
 
-        .tab-item.active {
+        .campaign-tab-item.active {
           background: white;
           color: #1A1A1A;
           box-shadow: 0 4px 12px rgba(0,0,0,0.04);
@@ -266,7 +266,7 @@ const Campaigns = () => {
           .btn-gold-lg { width: 100%; justify-content: center; padding: 14px; font-size: 15px; }
           .campaigns-grid { grid-template-columns: 1fr; gap: 16px; }
           .campaign-tabs-pill { width: 100%; display: flex; justify-content: space-between; padding: 4px; border-radius: 12px; background: #F9F8F6; margin-bottom: 24px; }
-          .tab-item { flex: 1; text-align: center; padding: 10px 0; font-size: 13px; }
+          .campaign-tab-item { flex: 1; text-align: center; padding: 10px 0; font-size: 13px; }
           .campaign-card-premium { padding: 20px; border-radius: 24px; }
         }
 
