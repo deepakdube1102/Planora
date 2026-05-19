@@ -1,4 +1,5 @@
 {
+  "name": "planora",
   "rewrites": [
     {
       "source": "/(.*)",
