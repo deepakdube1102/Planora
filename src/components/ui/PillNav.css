@@ -1,0 +1,317 @@
+/* ── PillNav — Premium Dark Pill Navbar ── */
+
+.pill-nav-container {
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.pill-nav {
+  --nav-h: 56px;
+  --logo-size: 28px;
+  --pill-pad-x: 16px;
+  --pill-gap: 2px;
+
+  width: auto;
+  max-width: 860px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  box-sizing: border-box;
+
+  /* Clean dark glass — no heavy blur */
+  background: rgba(20, 20, 20, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 9999px;
+  padding: 6px 6px 6px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  /* Single clean shadow — no glow spread */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  gap: 4px;
+}
+
+/* Subtle tighten on scroll — stays dark, no white */
+.pill-nav.scrolled {
+  --nav-h: 52px;
+  background: rgba(12, 12, 12, 0.90);
+  border-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transform: scale(0.99);
+}
+
+/* ── Logo ── */
+.pill-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 26px;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  padding-right: 16px;
+  /* No glow */
+  text-shadow: none;
+  font-family: 'Outfit', sans-serif;
+  line-height: 1;
+}
+
+.brand-name {
+  display: inline-block;
+  line-height: 1;
+  transform: translateY(-0.5px);
+}
+
+.pill-logo img {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Nav items wrapper ── */
+.pill-nav-items {
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.pill-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  height: var(--nav-h);
+}
+
+.pill-list > li {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* ── Individual nav pill ── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 14px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  font-weight: 500;
+  font-size: 13.5px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  /* Crisp — no text glow */
+  text-shadow: none;
+  letter-spacing: -0.01em;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+/* Hover: subtle light fill, text brightens */
+.pill:not(.cta-pill):hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Active dot indicator */
+.pill.is-active {
+  color: white;
+}
+.pill.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+/* ── Hover circle (JS-driven) — keep but mute ── */
+.pill .hover-circle {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ── Label stacking for animation ── */
+.pill .label-stack {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  z-index: 2;
+}
+
+.pill .pill-label {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  line-height: 1;
+  will-change: transform;
+}
+
+.pill .pill-label-hover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: rgba(255, 255, 255, 0.9);
+  z-index: 3;
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* ── CTA pill — clean white button ── */
+.pill-nav-cta {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pill.cta-pill {
+  background: #f3a63b;
+  color: #0c0c0c;
+  padding: 0 20px;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: -0.02em;
+  border-radius: 9999px;
+  height: 40px;
+  border: 1px solid rgba(243, 166, 59, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(243, 166, 59, 0.25);
+  text-shadow: none;
+  margin-left: 0;
+}
+
+.pill.cta-pill:hover {
+  background: #f5b352;
+  border-color: #f3a63b;
+  box-shadow: 0 4px 20px rgba(243, 166, 59, 0.45);
+  transform: translateY(-1px);
+}
+
+.pill.cta-pill:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(243, 166, 59, 0.2);
+}
+
+/* ── Responsive ── */
+.desktop-only { display: block; }
+.mobile-only  { display: none; }
+
+@media (max-width: 768px) {
+  .desktop-only { display: none; }
+  .mobile-only  { display: block; }
+
+  .pill-nav {
+    width: calc(100% - 32px);
+    justify-content: space-between;
+    padding: 6px 8px 6px 16px;
+  }
+}
+
+/* ── Mobile menu button ── */
+.mobile-menu-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-button { display: flex; }
+}
+
+.hamburger-line {
+  width: 14px;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+  transform-origin: center;
+}
+
+/* ── Mobile dropdown ── */
+.mobile-menu-popover {
+  position: absolute;
+  top: calc(var(--nav-h) + 8px);
+  left: 0;
+  right: 0;
+  background: rgba(14, 14, 14, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: 998;
+  opacity: 0;
+  transform-origin: top center;
+  visibility: hidden;
+}
+
+.mobile-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mobile-menu-popover .mobile-menu-link {
+  display: block;
+  padding: 11px 16px;
+  color: rgba(255, 255, 255, 0.65);
+  background: transparent;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: all 0.15s ease;
+  text-shadow: none;
+}
+
+.mobile-menu-popover .mobile-menu-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@media (max-width: 768px) {
+  .pill-nav-container { width: 100%; left: 0; }
+}
