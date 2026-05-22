@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS user_settings (
   weekly_reports BOOLEAN DEFAULT false,
   email_notifications BOOLEAN DEFAULT true,
   push_notifications BOOLEAN DEFAULT true,
+  push_device_token TEXT,
+  push_platform TEXT,
   sms_notifications BOOLEAN DEFAULT false,
   newsletter BOOLEAN DEFAULT true,
   announcements BOOLEAN DEFAULT false,

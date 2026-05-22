@@ -1,10 +1,12 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react'
 import { 
-  createBrowserRouter, 
+  createBrowserRouter,
+  createHashRouter,
   RouterProvider, 
   Navigate,
-  useLocation
 } from 'react-router-dom'
+import { Capacitor } from '@capacitor/core'
+import { hardNavigate, isPublicAuthRoute } from './lib/native'
 import { motion } from 'framer-motion'
 import { supabase } from './lib/supabase'
 
@@ -84,7 +86,7 @@ const LoadingScreen = () => (
   </div>
 )
 
-const router = createBrowserRouter([
+const routeConfig = [
   {
     path: '/',
     element: <Suspense fallback={<LoadingScreen />}><Landing /></Suspense>,
@@ -115,7 +117,11 @@ const router = createBrowserRouter([
     path: '*',
     element: <Navigate to="/" replace />,
   }
-])
+]
+
+const router = Capacitor.isNativePlatform()
+  ? createHashRouter(routeConfig)
+  : createBrowserRouter(routeConfig)
 
 function App() {
   const { session, setSession, syncUserProfile } = useAppStore()
@@ -129,7 +135,7 @@ function App() {
 
     const logout = () => {
       supabase.auth.signOut();
-      window.location.href = '/login';
+      hardNavigate('/login');
     };
 
     const resetTimer = () => {
@@ -265,8 +271,8 @@ function App() {
       
       if (event === 'SIGNED_OUT' || event === 'USER_UPDATED') {
         // Handle explicit sign out or session expiration
-        if (!session && window.location.pathname !== '/login' && window.location.pathname !== '/' && window.location.pathname !== '/signup') {
-          window.location.href = '/login';
+        if (!session && !isPublicAuthRoute()) {
+          hardNavigate('/login');
         }
       }
     })

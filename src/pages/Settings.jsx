@@ -163,8 +163,18 @@ const Settings = () => {
     applyTheme(settings.theme)
   }, [settings.theme])
 
-  const handleToggle = (key) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key] }))
+  const handleToggle = async (key) => {
+    const nextValue = !settings[key]
+    setSettings(prev => ({ ...prev, [key]: nextValue }))
+
+    if (key === 'pushNotifications') {
+      const { syncPushRegistration } = await import('../lib/pushNative')
+      const ok = await syncPushRegistration(nextValue)
+      if (nextValue && ok === false) {
+        setSettings(prev => ({ ...prev, pushNotifications: false }))
+        alert('Push permission was denied. Enable notifications in system settings to use push alerts.')
+      }
+    }
   }
 
   const handleCopyUrl = () => {

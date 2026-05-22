@@ -33,7 +33,7 @@ cd Planora
 ```
 
 ### 2. Install dependencies
-Make sure you have Node.js installed (v18+ recommended).
+Make sure you have Node.js installed (**v22+** for Capacitor CLI; **v22+** recommended for Vite 8).
 ```bash
 npm install
 ```
@@ -64,6 +64,25 @@ This project is configured for seamless deployment on Vercel.
 - **Code-Splitting:** Route-level code splitting using React `lazy` and `Suspense` reduces the initial bundle size by over 60%.
 - **Mobile Optimizations:** On devices with screens ≤ 768px, animation durations are capped, and expensive CSS properties like `backdrop-filter` are disabled to ensure smooth 60fps scrolling and interaction.
 - **Accessibility:** Honors the `prefers-reduced-motion` media query to disable animations for users who prefer it.
+
+## 📱 Android (Capacitor)
+
+The same React app ships inside a native Android WebView via [Capacitor](https://capacitorjs.com/). Use **Node.js 22+** (`nvm use` reads `.nvmrc`).
+
+**Prerequisites:** Android Studio, Android SDK, and a device or emulator.
+
+```bash
+nvm use 22
+npm install
+npm run build:mobile    # vite build + cap sync android
+npm run android:open    # open project in Android Studio → Run
+```
+
+Other scripts: `npm run cap:sync`, `npm run android:run` (CLI run if configured).
+
+On device, routing uses hash URLs; web builds still use normal browser history. After UI changes, run `npm run build:mobile` before testing in Android Studio.
+
+**Google OAuth on Android:** add `com.planora.app://oauth/callback` to Supabase Auth redirect URLs. See [docs/MOBILE_SETUP.md](docs/MOBILE_SETUP.md) for FCM (`google-services.json`) and the Gemini edge proxy.
 
 ## 🤝 Contributing
 1. Fork the repository

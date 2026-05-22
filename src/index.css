@@ -1,4 +1,8 @@
 :root {
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
   /* ── Luxury SaaS Color Palette ── */
   --bg-product: #F9F6F1;
   --surface-white: #FFFFFF;
@@ -65,6 +69,14 @@ h1, h2, h3, h4, .font-heading {
   .main-content {
     padding-top: 64px; /* Reduced for mobile */
   }
+}
+
+html.capacitor-native .main-content {
+  padding-top: calc(64px + var(--safe-area-top));
+}
+
+html.capacitor-native .layout {
+  padding-bottom: var(--safe-area-bottom);
 }
 
 /* ── Global UI Components ── */

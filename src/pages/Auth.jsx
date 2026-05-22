@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Mail, Lock, Eye, EyeOff, Layers, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import { getAuthRedirectUrl, isNativeApp } from '../lib/native'
+import { signInWithGoogleNative } from '../lib/oauthNative'
 import { motion, AnimatePresence } from 'framer-motion'
 import logo from '../assets/logo_golden.png'
 import logoWithText from '../assets/logo_with_text.png'
@@ -103,18 +105,23 @@ const Auth = ({ mode = 'login' }) => {
     setLoading(true)
     setError(null)
     try {
-      const { error } = await supabase.auth.signInWithOAuth({ 
-        provider: 'google', 
-        options: { 
-          redirectTo: window.location.origin + window.location.pathname,
+      if (isNativeApp) {
+        await signInWithGoogleNative()
+        return
+      }
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: getAuthRedirectUrl(),
           queryParams: {
-            prompt: 'select_account'
-          }
-        } 
+            prompt: 'select_account',
+          },
+        },
       })
       if (error) throw error
     } catch (err) {
       setError(err.message)
+    } finally {
       setLoading(false)
     }
   }

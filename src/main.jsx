@@ -1,8 +1,28 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { Capacitor } from '@capacitor/core'
 import './index.css'
 import App from './App.jsx'
 import { AppProvider } from './context/AppContext'
+import { initNativeOAuthListener } from './lib/oauthNative'
+import { initNativePush } from './lib/pushNative'
+
+async function initCapacitorNative() {
+  if (!Capacitor.isNativePlatform()) return
+  document.documentElement.classList.add('capacitor-native')
+  try {
+    const { StatusBar, Style } = await import('@capacitor/status-bar')
+    const { SplashScreen } = await import('@capacitor/splash-screen')
+    await StatusBar.setStyle({ style: Style.Light })
+    await SplashScreen.hide()
+  } catch (err) {
+    console.warn('Native shell init:', err)
+  }
+}
+
+void initCapacitorNative()
+initNativeOAuthListener()
+void initNativePush()
 
 // ══ CLOCK SKEW RESILIENCY PATCH ══
 // Compensates for client device clock being slightly behind the Supabase Auth server.

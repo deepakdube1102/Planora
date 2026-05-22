@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { isNativeApp } from '../lib/native'
+import { generateContentViaProxy, isAiProxyEnabled } from '../lib/aiProxy'
 
 export const useAI = () => {
   const [loading, setLoading] = useState(false)
@@ -9,6 +11,10 @@ export const useAI = () => {
     setError(null)
 
     try {
+      if (isNativeApp || isAiProxyEnabled()) {
+        return await generateContentViaProxy(prompt, type)
+      }
+
       const apiKey = import.meta.env.VITE_GEMINI_KEY || import.meta.env.VITE_GEMINI_API_KEY
 
       if (!apiKey) {
